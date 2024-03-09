@@ -1,14 +1,22 @@
-import { NextResponse, NextRequest } from 'next/server'
- 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-   const currentUser = request.cookies.get('Authorization')?.value
-   if (!currentUser) {
-      return Response.redirect(new URL('/sign', request.url))
-    }
-   return NextResponse.next()
+import { NextResponse, NextRequest } from "next/server";
+import { verifyCookie } from "./app/api/user/cokie";
+
+export async function middleware(request: NextRequest) {
+   const token = await request.cookies.get("Authorization")?.value;
+
+   if (!token) {
+      return NextResponse.redirect(new URL("/sign", request.url));
+   }
+
+   try {
+      const cokie = await verifyCookie(token)
+      return NextResponse.next();
+   } catch (error) {
+      console.log(error);
+      return NextResponse.redirect(new URL("/sign", request.url));
+   }
 }
- 
-export const config ={
-   matcher: ['/dashboard/:path*', '/admin/:path*']
-}
+
+export const config = {
+   matcher: ["/dashboard/:path*", "/admin/:path*"], // Protected routes
+};

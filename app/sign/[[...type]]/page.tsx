@@ -2,6 +2,7 @@
 "use client";
 import { FC, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface pageProps {
    params: {
@@ -12,7 +13,6 @@ interface pageProps {
 const page: FC<pageProps> = ({ params }) => {
    const pageType: string  = params.type !== undefined ? params.type[0] : 'in';
    const router = useRouter()
-   const [message, setmessage] = useState(false);
 
    const handleSubmit = async (event: any) => {
       event.preventDefault();
@@ -40,6 +40,10 @@ const page: FC<pageProps> = ({ params }) => {
          const data = await response.json();
          if (data.success) {
             router.push('/');
+            toast.success(data.message)
+         }
+         if (!data.success) {
+            toast.error(data.message)
          }
       } catch (error) {
          console.error("Error:", error);

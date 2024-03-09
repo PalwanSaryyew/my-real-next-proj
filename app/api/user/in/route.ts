@@ -7,8 +7,8 @@ export async function POST(req: Request) {
    if (await getEmail(email)) {
       const result = await getPass(password)
       if (result) {
-         await saveCookie({email: result.emaiL, username: result.username})
-         return Response.json({ success: true });
+         await saveCookie({email: result.email, username: result.username})
+         return Response.json({ success: true, message: 'Giris ustunlikli' });
       }
       return Response.json({success:false,  message: "Girizilen maglumatlar yalnys" });
    }
