@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Header from "@/components/partials/Header";
 import Footer from "@/components/partials/Footer";
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
    title: "Create Next App",
@@ -33,6 +34,7 @@ export default function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="system">
                <Header/>
                {children}
+               <Toaster/>
                <Footer/>
             </ThemeProvider>
          </body>

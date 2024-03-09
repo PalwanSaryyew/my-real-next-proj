@@ -60,9 +60,9 @@ const Header: FC<HeaderProps> = ({}) => {
                            </a>
                         </li>
                         <li>
-                           <a className="transition" href="#">
+                           <a className="transition" href="/dashboard">
                               {" "}
-                              Blog{" "}
+                              Dashboard{" "}
                            </a>
                         </li>
                      </ul>

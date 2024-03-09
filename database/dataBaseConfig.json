@@ -1,8 +1,0 @@
-{
-    "username": "root",
-    "password": "root",
-    "host": "localhost",
-    "posr": "5433",
-    "database": "my-next",
-    "dialect": "postgres"
-}
