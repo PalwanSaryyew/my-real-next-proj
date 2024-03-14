@@ -1,11 +1,14 @@
 
+import { getSession } from '@/lib';
+import { JwtPayload } from 'jsonwebtoken';
 import type { FC } from 'react';
 
 interface pageProps {}
 
-const page: FC<pageProps> = ({}) => {
+const page: FC<pageProps> = async ({}) => {
+      const session: JwtPayload | undefined = await getSession()
     return (
-            <div className='justify-self-stretch'>dash</div>
+            <p className='justify-self-stretch'>{session?.role}</p>
       )
 }
 export default page;

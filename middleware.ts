@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { verifyCookie } from "./app/api/user/cokie";
 
 export async function middleware(request: NextRequest) {
-   const token = await request.cookies.get("Authorization")?.value;
+   const token = await request.cookies.get("Bearer")?.value;
 
    if (!token) {
       return NextResponse.redirect(new URL("/sign", request.url));
@@ -10,10 +10,8 @@ export async function middleware(request: NextRequest) {
 
    try {
       const cokie = await verifyCookie(token)
-      console.log(cokie);
       return NextResponse.next();
    } catch (error) {
-      console.log(error);
       return NextResponse.redirect(new URL("/sign", request.url));
    }
 }

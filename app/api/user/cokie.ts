@@ -10,7 +10,7 @@ export const saveCookie = async (payload: any) => {
       .setIssuedAt()
       .setExpirationTime("86400 sec from now")
       .sign(key);
-   cookies().set("Authorization", encryptedCookie, {
+   cookies().set("Bearer", encryptedCookie, {
       httpOnly: true, // Prevent client-side script access for security
       maxAge: 60 * 60 * 24, // Expires in 24 hours
       secure: process.env.NODE_ENV === "production", // Set secure flag only in production

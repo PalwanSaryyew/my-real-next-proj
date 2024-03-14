@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

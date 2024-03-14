@@ -20,8 +20,8 @@ export async function POST(req: Request) {
 
    try {
       await createUser(user);
-      const {emaiL, username} = await getEmail(email)
-      await saveCookie({email: emaiL, username})
+      const {emaiL, username, role} = await getEmail(email)
+      await saveCookie({ email: emaiL, username, role })
       return Response.json({
          success: true,
          message: 'Ustunlkli'

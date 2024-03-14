@@ -18,7 +18,7 @@ const inter = Inter({
    display: 'swap',
  })
 
-export default function RootLayout({
+export default async function RootLayout({
    children,
 }: Readonly<{
    children: React.ReactNode;
@@ -33,7 +33,7 @@ export default function RootLayout({
             )}
          >
             <ThemeProvider attribute="class" defaultTheme="system">
-               <Header/>
+               <Header/> 
                <main className='flex justify-stretch'>
                   <div className='basis-1/12 bg-red-2001'/>
                   <div className='basis-auto bg-yellow-1001'><Aside/></div>
