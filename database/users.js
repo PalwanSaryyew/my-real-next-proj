@@ -1,34 +1,35 @@
 import { pool } from "./dbCon.mjs";
 
 export const getEmail = async (email) => {
-   const [results] = await pool.query(
-      `SELECT * FROM users WHERE email = ?`,
-      [email]
+   const results = await pool.query(
+     `SELECT * FROM market.users WHERE email = $1`,
+     [email]
    );
-   return results[0];
+   return results.rows[0];
 };
 
 export const getPass = async (pass) => {
-   const [results] = await pool.query(
-      `SELECT * FROM users WHERE password = ?`,
-      [pass]
+   const results = await pool.query(
+     `SELECT * FROM market.users WHERE password = $1`,
+     [pass]
    );
-   return results[0];
+   return results.rows[0];
 };
 
 export const createUser = async (user) => {
-   //console.log(user);
-   const [results] = await pool.query(
+   const now = new Date()
+   const results = await pool.query(
       `INSERT INTO
-      users
-      (username, password, email, phone_number)
+      market.users
+      (username, password, email, role, created_date)
       VALUES
-      (?,?,?,?);`,
+      ($1, $2, $3, $4, $5);`,
       [
          user.username,
          user.password,
          user.email,
-         user.phone_number
+         user.role,
+         now
       ]
    );
    return results;

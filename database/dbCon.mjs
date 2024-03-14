@@ -1,33 +1,13 @@
-import mysql from "mysql2/promise";
+import pg from 'pg'
 
-export const pool = mysql.createPool({
-   host: "localhost",
-   user: "root",
-   password: "root",
-   database: "parketplace",
+export const pool = new pg.Pool({
+  connectionString: 'postgres://postgres:root@localhost:5432/postgres',
 });
 
-/* try {
-   const [results, fields] = await connection.query(
-      'SELECT * FROM `users` WHERE `username` = "men"'
-   );
-
-   console.log(results); // results contains rows returned by server
-   console.log(fields); // fields contains extra meta data about results, if available
-} catch (err) {
-   console.log(err);
-} */
-
-
-/*   try {
-    const [results] = await connection.query(
-      'SELECT * FROM `users` WHERE `username` = ?',
-      ['men']
-    );
-  
-    console.log(results);
-  } catch (err) {
-    console.log(err);
-  } */
-
-
+pool.connect((err)=>{
+   if (err) {
+      console.log('connection db error', err.stack);
+   }else{
+      console.log(' dbconnected');
+   }
+})

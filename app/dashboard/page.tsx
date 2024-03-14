@@ -5,7 +5,7 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
     return (
-            <div>dash</div>
+            <div className='justify-self-stretch'>dash</div>
       )
 }
 export default page;

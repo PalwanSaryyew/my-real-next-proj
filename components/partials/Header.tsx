@@ -30,7 +30,7 @@ const Header: FC<HeaderProps> = ({}) => {
                   <nav aria-label="Global">
                      <ul className="flex items-center gap-6 text-sm text-foreground">
                         <li>
-                           <a className="transition" href="#">
+                           <a className="transition" href="/about">
                               {" "}
                               About{" "}
                            </a>

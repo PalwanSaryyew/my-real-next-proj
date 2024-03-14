@@ -10,6 +10,7 @@ export async function middleware(request: NextRequest) {
 
    try {
       const cokie = await verifyCookie(token)
+      console.log(cokie);
       return NextResponse.next();
    } catch (error) {
       console.log(error);
