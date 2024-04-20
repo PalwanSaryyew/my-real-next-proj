@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyCookie } from "./app/api/user/cokie";
+import { verifyCookie } from "./cokie";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
@@ -40,7 +40,7 @@ export async function logout() {
 }
 
 export async function getSession() {
-  const session = cookies().get("Authorization")?.value;
+  const session = cookies().get("Bearer")?.value;
   if (!session) return;
   return await verifyCookie(session);
 }

@@ -1,16 +1,49 @@
-import { getEmail, getPass } from "@/database/users";
-import { saveCookie } from "../cokie";
+import { PrismaClient } from "@prisma/client";
+import { saveCookie } from "../../../../lib/cokie";
+import bcrypt from "bcrypt";
+import { NextRequest } from "next/server";
+const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
-   const { email, password } = await req.json();
+export async function POST(request: NextRequest) {
+  const { email, password } = await request.json();
 
-   if (await getEmail(email)) {
-      const result = await getPass(password)
-      if (result) {
-         await saveCookie({email: result.email, username: result.username, role: result.role})
-         return Response.json({ success: true, message: 'Giris ustunlikli' });
-      }
-      return Response.json({success:false,  message: "Girizilen maglumatlar yalnys" });
-   }
-   return Response.json({success:false, message: "Girizilen maglumatlar yalnys" });
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return Response.json({
+        message: "Kullanıcı bulunamadı",
+        success: false,
+        code: 404,
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return Response.json({
+        message: "Hatalı parola",
+        success: false,
+        code: 400,
+      });
+    }
+
+    return Response.json({
+      success: true,
+      message: "Giris ustunlikli",
+      code: 200,
+    });
+
+  } catch (error) {
+    console.error("Kullanıcıları getirirken hata:", error);
+    return Response.json({
+      message: "Internal Server Error",
+      code: 500,
+      success: false,
+    });
+  }
 }

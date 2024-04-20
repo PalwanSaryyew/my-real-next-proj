@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { verifyCookie } from "./app/api/user/cokie";
+import { verifyCookie } from "./lib/cokie";
 
 export async function middleware(request: NextRequest) {
    const token = await request.cookies.get("Bearer")?.value;

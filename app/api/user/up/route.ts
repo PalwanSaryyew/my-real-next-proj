@@ -1,32 +1,29 @@
-import { getEmail, createUser } from "@/database/users";
-import { saveCookie } from "../cokie";
+import { PrismaClient } from "@prisma/client";
+import { saveCookie } from "../../../../lib/cokie";
+import bcrypt from "bcrypt";
+import { NextRequest } from "next/server";
+const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
-   const { email, password, username } = await req.json();
-
-   if (await getEmail(email)) {
-      return Response.json({
-         success: false,
-         message: "kullanici mevcut",
-      });
-   }
-
-   const user = {
-      email,
-      password,
-      username,
-      role: 'user'
-   };
-
-   try {
-      await createUser(user);
-      const {emaiL, username, role} = await getEmail(email)
-      await saveCookie({ email: emaiL, username, role })
-      return Response.json({
-         success: true,
-         message: 'Ustunlkli'
-      });
-   } catch (error: any) {
-      return Response.json({ error: error.message });
-   }
+export async function POST(request: NextRequest) {
+  const { username, email, password } = await request.json();
+  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const user = await prisma.user.create({
+      data: {
+         username,
+         email,
+         password: hashedPassword,
+      },
+    });
+    console.log(user);
+    
+    return Response.json({success: true, message: 'Register ustunlikli', code: 201});
+  } catch (error) {
+    console.error("Kullanıcıları ulusturma hata:", error);
+    return Response.json({
+      message: "Yalnyslyk yuze cykdy",
+      code: 500,
+      success: false,
+    });
+  }
 }
