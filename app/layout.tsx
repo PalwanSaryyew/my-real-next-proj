@@ -40,7 +40,7 @@ export default async function RootLayout({
                   <div className='basis-9/12 bg-blue-3001'>{children}</div>          
                   <div className='basis-1/12 bg-blue-1001'/>
                </main>
-               <Toaster richColors  expand={false} closeButton />
+               <Toaster richColors  expand={false} closeButton position="top-center"/>
                <Footer/>
             </ThemeProvider>
          </body>

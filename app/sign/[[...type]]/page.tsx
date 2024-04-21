@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { FC } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface pageProps {
@@ -12,7 +11,6 @@ interface pageProps {
 
 const page: FC<pageProps> = ({ params }) => {
    const pageType: string  = params.type !== undefined ? params.type[0] : 'in';
-   const router = useRouter()
 
    const handleSubmit = async (event: any) => {
       event.preventDefault();
@@ -39,8 +37,7 @@ const page: FC<pageProps> = ({ params }) => {
 
          const data = await response.json();
          if (data.success) {
-            router.push('/');
-            toast.success(data.message)
+            window.location.href = "/";
          }
          if (!data.success) {
             toast.error(data.message)

@@ -12,11 +12,11 @@ export async function POST(request: NextRequest) {
       where: {
         email: email,
       },
-    });
+    });    
 
     if (!user) {
       return Response.json({
-        message: "Kullanıcı bulunamadı",
+        message: "Email dogry dal",
         success: false,
         code: 404,
       });
@@ -26,18 +26,18 @@ export async function POST(request: NextRequest) {
 
     if (!isPasswordValid) {
       return Response.json({
-        message: "Hatalı parola",
+        message: "Yalnys parol",
         success: false,
         code: 400,
       });
     }
+    await saveCookie(user)
 
     return Response.json({
       success: true,
       message: "Giris ustunlikli",
       code: 200,
     });
-
   } catch (error) {
     console.error("Kullanıcıları getirirken hata:", error);
     return Response.json({

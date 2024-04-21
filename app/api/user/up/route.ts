@@ -6,7 +6,9 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   const { username, email, password } = await request.json();
+
   const hashedPassword = await bcrypt.hash(password, 10);
+
   try {
     const user = await prisma.user.create({
       data: {
@@ -15,9 +17,11 @@ export async function POST(request: NextRequest) {
          password: hashedPassword,
       },
     });
-    console.log(user);
-    
+
+    if (user) await saveCookie(user)
+
     return Response.json({success: true, message: 'Register ustunlikli', code: 201});
+
   } catch (error) {
     console.error("Kullanıcıları ulusturma hata:", error);
     return Response.json({
